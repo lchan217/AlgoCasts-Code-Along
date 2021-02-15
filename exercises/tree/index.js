@@ -10,8 +10,64 @@
 // on the tree class.  Each method should accept a
 // function that gets called with each element in the tree
 
-class Node {}
+class Node {
+    constructor(data){
+        this.data = data
+        this.children = []
+    }
 
-class Tree {}
+    add(data){
+        this.children.push(new Node(data))
+    }
+
+    // LC: review
+    remove(data){
+        this.children = this.children.filter(node => {
+            return node.data !== data;
+        })
+    }
+}
+
+class Tree {
+    constructor(){
+        this.root = null
+    }
+
+    // think org chart! print out in order of importance
+    traverseBF(fn){
+        const array = [this.root]
+
+        while(array.length){
+            const first = array.shift()
+            
+            // array.push(first.children) - would result in nested array like
+            // [node, [node, node]]
+
+            // ok
+            // for(let child of first.children){
+            //     array.push(child)
+            // }
+
+            // modern syntax
+            array.push(...first.children)
+
+            fn(first)
+        }
+
+    }
+
+    traverseDF(fn){
+        const array = [this.root]
+
+        while(array.length){
+            const first = array.shift()
+
+            array.unshift(...first.children)
+
+            fn(first)
+        }
+
+    }
+}
 
 module.exports = { Tree, Node };
